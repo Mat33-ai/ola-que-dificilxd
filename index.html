@@ -4,189 +4,163 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ola Aylu</title>
-    <!-- Tailwind CSS for modern, aesthetic styling -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Quicksand & Inter for a clean look -->
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Fuente bonita de Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Quicksand', sans-serif;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
         }
-        /* Smooth transitions for envelope/letter reveal */
-        .letter-hidden {
+
+        body {
+            background-color: #1e3a8a; /* Azul simple */
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            color: #333;
+        }
+
+        /* Contenedor principal inicial (El botón) */
+        .welcome-container {
+            text-align: center;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .welcome-container.hidden {
             opacity: 0;
-            transform: scale(0.9) translateY(20px);
+            transform: scale(0.9);
             pointer-events: none;
             display: none;
         }
-        .letter-visible {
-            opacity: 1;
-            transform: scale(1) translateY(0);
-            pointer-events: auto;
-            display: block;
+
+        .btn-presioname {
+            background-color: #ffffff;
+            color: #1e3a8a;
+            border: none;
+            padding: 16px 36px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease, background-color 0.2s ease;
+        }
+
+        .btn-presioname:hover {
+            transform: scale(1.05);
+            background-color: #f1f5f9;
+        }
+
+        /* La carta secreta (oculta al inicio) */
+        .card-container {
+            position: absolute;
+            width: 90%;
+            max-width: 500px;
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 40px 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+            text-align: center;
+            opacity: 0;
+            transform: translateY(30px) scale(0.95);
+            pointer-events: none;
             transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        @keyframes pulse-glow {
-            0%, 100% { box-shadow: 0 0 20px rgba(225, 29, 72, 0.4); }
-            50% { box-shadow: 0 0 35px rgba(225, 29, 72, 0.7); }
+
+        .card-container.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
         }
-        .glow-btn {
-            animation: pulse-glow 3s infinite;
+
+        h1 {
+            color: #1e3a8a;
+            font-size: 2rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .subtitle-joke {
+            font-size: 0.95rem;
+            color: #64748b;
+            margin-bottom: 25px;
+            font-style: italic;
+        }
+
+        .message-body {
+            font-size: 1rem;
+            color: #475569;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            text-align: left;
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid #1e3a8a;
+        }
+
+        .btn-cerrar {
+            background: transparent;
+            border: 2px solid #cbd5e1;
+            color: #64748b;
+            padding: 8px 20px;
+            font-size: 0.9rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-cerrar:hover {
+            border-color: #1e3a8a;
+            color: #1e3a8a;
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-slate-950 via-blue-950 to-red-950 min-h-screen flex items-center justify-center p-4 text-slate-100 overflow-x-hidden relative">
+<body>
 
-    <!-- Ambient background glow elements -->
-    <div class="absolute top-1/4 left-1/4 w-72 h-72 bg-blue-600/10 rounded-full filter blur-3xl pointer-events-none"></div>
-    <div class="absolute bottom-1/4 right-1/4 w-72 h-72 bg-rose-600/15 rounded-full filter blur-3xl pointer-events-none"></div>
-
-    <!-- Initial Screen: Just the button -->
-    <div id="initial-screen" class="text-center z-10 transition-all duration-500">
-        <div class="mb-6 space-y-2">
-            <h2 class="text-2xl sm:text-3xl font-semibold text-slate-300 tracking-wide">Tienes un mensaje pendiente</h2>
-            <p class="text-slate-400 text-sm">Haz clic cuando estés lista...</p>
-        </div>
-        <button onclick="openLetter()" class="glow-btn bg-gradient-to-r from-rose-600 to-red-700 hover:from-rose-500 hover:to-red-600 text-white font-bold text-lg py-4 px-8 rounded-full shadow-2xl transition-transform transform hover:scale-110 active:scale-95 flex items-center gap-3 mx-auto border border-rose-400/30 cursor-pointer">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-            </svg>
-            Presióname
-        </button>
+    <!-- Pantalla inicial con el botón -->
+    <div class="welcome-container" id="welcomeScreen">
+        <button class="btn-presioname" onclick="mostrarCarta()">Presióname</button>
     </div>
 
-    <!-- Hidden Letter Modal (Modern Aesthetic Pergamino/Card) -->
-    <main id="letter-container" class="letter-hidden w-full max-w-xl mx-auto bg-slate-900/90 backdrop-blur-xl border border-rose-500/30 shadow-2xl rounded-3xl p-6 sm:p-10 relative z-20 max-h-[90vh] overflow-y-auto">
+    <!-- La carta bonita que aparece -->
+    <div class="card-container" id="carta">
+        <h1>Ola Aylu</h1>
+        <p class="subtitle-joke">*(Sí, programé una página web entera solo para decirte esto, no me juzgues)*</p>
         
-        <!-- Close/Minimize back button if needed -->
-        <div class="absolute top-4 right-4">
-            <button onclick="closeLetter()" class="text-slate-400 hover:text-white p-2 rounded-full hover:bg-white/5 transition-colors text-xs font-semibold">✕ Cerrar</button>
+        <div class="message-body">
+            <p>Sé que a veces la cago o que las cosas no son fáciles, pero la verdad es que <strong>no quiero perderte</strong>.</p>
+            <br>
+            <p>Quería buscar una forma sincera de recordarte que eres todo para mí y que de verdad me importas muchísimo.</p>
         </div>
 
-        <!-- Section 1: Header & Humorous Subtitle -->
-        <section class="text-center mb-8 pt-2">
-            <div class="inline-block p-3 bg-rose-500/20 text-rose-400 rounded-2xl mb-4 border border-rose-500/30 shadow-inner">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                </svg>
-            </div>
-            <h1 class="text-4xl sm:text-5xl font-bold text-slate-100 tracking-tight mb-2">Ola Aylu</h1>
-            <p class="text-rose-400 font-medium text-base sm:text-lg">Intentando arreglar mis errores con código 💻😅</p>
-        </section>
-
-        <!-- Section 2: Interactive Humor Section (Why a website?) -->
-        <section class="space-y-4 mb-8">
-            <div class="bg-slate-800/60 p-4 rounded-2xl border border-slate-700/60 shadow-sm text-center">
-                <p class="text-slate-300 text-sm sm:text-base mb-3">Te preguntarás por qué hice una página web en vez de mandarte un simple mensaje...</p>
-                <div class="flex flex-wrap justify-center gap-2">
-                    <button onclick="showExcuse(1)" class="bg-blue-950/80 hover:bg-blue-900 text-blue-300 text-xs sm:text-sm font-semibold py-2 px-4 rounded-xl border border-blue-800/40 transition-all cursor-pointer">Opción A</button>
-                    <button onclick="showExcuse(2)" class="bg-rose-950/80 hover:bg-rose-900 text-rose-300 text-xs sm:text-sm font-semibold py-2 px-4 rounded-xl border border-rose-800/40 transition-all cursor-pointer">Opción B</button>
-                    <button onclick="showExcuse(3)" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs sm:text-sm font-semibold py-2 px-4 rounded-xl border border-slate-600/50 transition-all cursor-pointer">La Verdad</button>
-                </div>
-                <div id="excuse-box" class="mt-4 p-3 bg-slate-950/60 rounded-xl text-xs sm:text-sm text-rose-300 font-medium hidden transition-all border border-rose-500/20">
-                    <!-- Dynamic excuse text goes here -->
-                </div>
-            </div>
-        </section>
-
-        <!-- Section 3: The Heartfelt Message -->
-        <section class="bg-gradient-to-r from-blue-950/40 to-rose-950/40 p-6 rounded-2xl border border-rose-500/20 shadow-sm mb-8 text-center space-y-4">
-            <h2 class="text-xl font-bold text-slate-200">Ya hablando en serio...</h2>
-            <p class="text-slate-300 leading-relaxed text-sm sm:text-base">
-                Sé que a veces puedo ser un caso perdido, que la cago y que no siempre hago las cosas bien. Pero lo que sí tengo clarísimo es que <span class="font-bold text-rose-400">no quiero perderte</span>. 
-            </p>
-            <p class="text-slate-300 leading-relaxed text-sm sm:text-base">
-                Para mí, <span class="font-bold text-blue-300">tú eres todo</span>. Me importas muchísimo, valoro cada momento a tu lado y estoy dispuesto a poner todo de mi parte para mejorar, escucharte y hacer las cosas bien.
-            </p>
-        </section>
-
-        <!-- Section 4: Interactive Response Buttons -->
-        <section class="text-center space-y-3">
-            <p class="text-sm font-medium text-slate-300">¿Me das una oportunidad de hablarlo o solucionarlo?</p>
-            <div class="flex justify-center gap-4 flex-wrap">
-                <button onclick="handleResponse('yes')" class="bg-gradient-to-r from-rose-600 to-red-700 hover:from-rose-500 hover:to-red-600 text-white font-bold py-3 px-6 rounded-2xl shadow-md transition-transform transform hover:scale-105 cursor-pointer">
-                    ¡Sí, hablemos! 🥺❤️
-                </button>
-                <button id="btn-no" onmouseover="moveButton()" onclick="handleResponse('no')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-3 px-6 rounded-2xl transition-all relative border border-slate-700 cursor-pointer">
-                    No sé... 🙈
-                </button>
-            </div>
-            <div id="response-msg" class="text-sm font-bold mt-3 hidden"></div>
-        </section>
-
-        <!-- Footer note -->
-        <footer class="mt-8 text-center text-xs text-slate-500">
-            Hecho con algo de nervios y mucho cariño para Aylu.
-        </footer>
-    </main>
+        <button class="btn-cerrar" onclick="ocultarCarta()">Volver</button>
+    </div>
 
     <script>
-        // Function to reveal the letter with animation
-        function openLetter() {
-            const initialScreen = document.getElementById('initial-screen');
-            const letterContainer = document.getElementById('letter-container');
+        function mostrarCarta() {
+            const welcome = document.getElementById('welcomeScreen');
+            const carta = document.getElementById('carta');
 
-            initialScreen.style.opacity = '0';
-            initialScreen.style.transform = 'scale(0.9)';
-            
+            welcome.classList.add('hidden');
             setTimeout(() => {
-                initialScreen.style.display = 'none';
-                letterContainer.classList.remove('letter-hidden');
-                letterContainer.classList.add('letter-visible');
-            }, 300);
+                carta.classList.add('show');
+            }, 200);
         }
 
-        // Optional function to close/minimize back
-        function closeLetter() {
-            const initialScreen = document.getElementById('initial-screen');
-            const letterContainer = document.getElementById('letter-container');
+        function ocultarCarta() {
+            const welcome = document.getElementById('welcomeScreen');
+            const carta = document.getElementById('carta');
 
-            letterContainer.classList.remove('letter-visible');
-            letterContainer.classList.add('letter-hidden');
-
+            carta.classList.remove('show');
             setTimeout(() => {
-                initialScreen.style.display = 'block';
-                initialScreen.style.opacity = '1';
-                initialScreen.style.transform = 'scale(1)';
+                welcome.classList.remove('hidden');
             }, 300);
-        }
-
-        // Array of humorous excuses for why a website was built
-        function showExcuse(option) {
-            const box = document.getElementById('excuse-box');
-            box.classList.remove('hidden');
-            
-            if (option === 1) {
-                box.innerHTML = "💡 <b>Opción A:</b> Quería demostrarte que al menos aprendí algo útil en internet, aunque sea para pedir perdón.";
-            } else if (option === 2) {
-                box.innerHTML = "💡 <b>Opción B:</b> Si te mandaba un testamento por WhatsApp ibas a dejarme en visto, así que mejor te hice una interfaz gráfica profesional.";
-            } else if (option === 3) {
-                box.innerHTML = "💡 <b>La Verdad:</b> Tenía miedo de escribirte mal las palabras y preferí programarlo para que saliera exactamente lo que siento. Te quiero.";
-            }
-        }
-
-        // Playful function to make the 'No' button run away slightly if she tries to click it
-        function moveButton() {
-            const btn = document.getElementById('btn-no');
-            const randomX = (Math.random() - 0.5) * 80;
-            const randomY = (Math.random() - 0.5) * 40;
-            btn.style.transform = `translate(${randomX}px, ${randomY}px)`;
-        }
-
-        // Response handler
-        function handleResponse(choice) {
-            const msgBox = document.getElementById('response-msg');
-            msgBox.classList.remove('hidden');
-            
-            if (choice === 'yes') {
-                msgBox.className = "text-sm font-bold mt-3 text-rose-400 animate-pulse";
-                msgBox.innerHTML = "¡Yay! Escríbeme cuando quieras, de verdad te lo agradeceré un montón. Te quiero ❤️";
-            } else {
-                msgBox.className = "text-sm font-bold mt-3 text-blue-300";
-                msgBox.innerHTML = "Entiendo, tómate tu tiempo. Aquí estaré esperando con paciencia. ✨";
-            }
         }
     </script>
 </body>
 </html>
-```
