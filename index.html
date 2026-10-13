@@ -59,7 +59,7 @@
         .card-container {
             position: absolute;
             width: 90%;
-            max-width: 500px;
+            max-width: 520px;
             background: #ffffff;
             border-radius: 20px;
             padding: 40px 30px;
@@ -69,12 +69,23 @@
             transform: translateY(30px) scale(0.95);
             pointer-events: none;
             transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         .card-container.show {
             opacity: 1;
             transform: translateY(0) scale(1);
             pointer-events: auto;
+        }
+
+        /* Páginas de la carta */
+        .carta-page {
+            display: none;
+        }
+
+        .carta-page.active {
+            display: block;
         }
 
         h1 {
@@ -92,7 +103,7 @@
         }
 
         .message-body {
-            font-size: 1rem;
+            font-size: 0.95rem;
             color: #475569;
             line-height: 1.6;
             margin-bottom: 25px;
@@ -103,7 +114,14 @@
             border-left: 4px solid #1e3a8a;
         }
 
-        .btn-cerrar {
+        .buttons-group {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn-accion {
             background: transparent;
             border: 2px solid #cbd5e1;
             color: #64748b;
@@ -114,9 +132,21 @@
             transition: all 0.2s ease;
         }
 
-        .btn-cerrar:hover {
+        .btn-accion:hover {
             border-color: #1e3a8a;
             color: #1e3a8a;
+        }
+
+        .btn-principal {
+            background-color: #1e3a8a;
+            border: 2px solid #1e3a8a;
+            color: #ffffff;
+        }
+
+        .btn-principal:hover {
+            background-color: #1d4ed8;
+            border-color: #1d4ed8;
+            color: #ffffff;
         }
     </style>
 </head>
@@ -129,16 +159,42 @@
 
     <!-- La carta bonita que aparece -->
     <div class="card-container" id="carta">
-        <h1>Ola Aylu</h1>
-        <p class="subtitle-joke">*(Sip, hice esta mierda nomás pa esto alv, aún con ayuda de gemini ta dificil te amo ola bai me odias? pues yo te amo)*</p>
         
-        <div class="message-body">
-            <p>Sé que a veces la cago o que nos hacemos daño o que estamos mal, pero la verdad es que <strong>no quiero estar sin ti</strong>.</p>
-            <br>
-            <p>Quería buscar una forma de expresar o demostrar algo (anque este bien corto tiene muxho trabajo alv) y que de verdad me importas muchísimo.</p>
+        <!-- PÁGINA 1 -->
+        <div class="carta-page active" id="pagina1">
+            <h1>Ola Aylu</h1>
+            <p class="subtitle-joke">*(Sip, hice esta mierda nomás pa esto alv, aún con ayuda de gemini ta dificil te amo ola bai me odias? pues yo te amo)*</p>
+            
+            <div class="message-body">
+                <p>Sé que a veces la cago o que nos hacemos daño o que estamos mal, pero la verdad es que <strong>no quiero estar sin ti</strong>.</p>
+                <br>
+                <p>Quería buscar una forma de expresar o demostrar algo (anque este bien corto tiene muxho trabajo alv) y que de verdad me importas muchísimo.</p>
+            </div>
+
+            <div class="buttons-group">
+                <button class="btn-accion" onclick="ocultarCarta()">Volver</button>
+                <button class="btn-accion btn-principal" onclick="cambiarPagina(2)">Ver más</button>
+            </div>
         </div>
 
-        <button class="btn-cerrar" onclick="ocultarCarta()">Volver</button>
+        <!-- PÁGINA 2 (Más texto) -->
+        <div class="carta-page" id="pagina2">
+            <h1>Para seguir pensando en ti...</h1>
+            
+            <div class="message-body">
+                <p>Sé que a veces nos enredamos en tonterías o que el orgullo nos gana, pero al final del día, lo único que realmente me importa eres tú.</p>
+                <br>
+                <p>Echo de menos las cosas buenas, las risas, y la forma en la que todo es mejor cuando estamos bien. Me pongo a pensar en todo lo que hemos pasado y sé que vale la pena luchar por esto.</p>
+                <br>
+                <p>No soy perfecto, te lo juro que intento mejorar cada día, pero de lo único que estoy seguro es de que quiero seguir teniendo un espacio en tu vida.</p>
+            </div>
+
+            <div class="buttons-group">
+                <button class="btn-accion" onclick="cambiarPagina(1)">Regresar</button>
+                <button class="btn-accion" onclick="ocultarCarta()">Cerrar</button>
+            </div>
+        </div>
+
     </div>
 
     <script>
@@ -157,9 +213,20 @@
             const carta = document.getElementById('carta');
 
             carta.classList.remove('show');
+            cambiarPagina(1); // Regresa a la página 1 por defecto al cerrar
             setTimeout(() => {
                 welcome.classList.remove('hidden');
             }, 300);
+        }
+
+        function cambiarPagina(numPagina) {
+            document.getElementById('pagina1').classList.remove('active');
+            document.getElementById('pagina2').classList.remove('active');
+            
+            document.getElementById('pagina' + numPagina).classList.add('active');
+            
+            // Sube la carta arriba del todo por si hay scroll
+            document.getElementById('carta').scrollTop = 0;
         }
     </script>
 </body>
