@@ -1,21 +1,132 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ola yio hice esto</title>
-  
-<style>
-    body {
-      background: darkred;
-      color: blue;
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 80vh;
-      margin: 0;
-      text-align: center;
-      }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ola Aylu</title>
+    <!-- Tailwind CSS for modern, aesthetic styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Quicksand for a friendly look -->
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 182, 193, 0.3);
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+        .floating {
+            animation: float 4s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-pink-100 via-purple-100 to-pink-200 min-h-screen flex items-center justify-center p-4 text-gray-800">
 
-<img src="olaxd.jfif" width="300" alt="Nosotros 💕">
+    <main class="w-full max-w-xl mx-auto glass-card shadow-2xl rounded-3xl p-6 sm:p-10 relative overflow-hidden transition-all duration-300">
+        
+        <!-- Decorative background elements -->
+        <div class="absolute -top-10 -right-10 w-32 h-32 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-50"></div>
+        <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-50"></div>
+
+        <!-- Section 1: Header & Humorous Subtitle -->
+        <section class="text-center relative z-10 mb-8">
+            <div class="inline-block p-3 bg-pink-200 text-pink-700 rounded-2xl mb-4 floating shadow-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
+            </div>
+            <h1 class="text-4xl sm:text-5xl font-bold text-purple-900 tracking-tight mb-2">Ola Aylu</h1>
+            <p class="text-pink-700 font-semibold text-lg sm:text-xl">Intentando arreglar mis errores con código 💻😅</p>
+        </section>
+
+        <!-- Section 2: Interactive Humor Section (Why a website?) -->
+        <section class="space-y-4 mb-8 relative z-10">
+            <div class="bg-white/70 p-4 rounded-2xl border border-pink-100 shadow-sm text-center">
+                <p class="text-gray-700 text-sm sm:text-base mb-3">Te preguntarás por qué hice una página web en vez de mandarte un simple WhatsApp...</p>
+                <div class="flex flex-wrap justify-center gap-2">
+                    <button onclick="showExcuse(1)" class="bg-pink-100 hover:bg-pink-200 text-pink-800 text-xs sm:text-sm font-semibold py-2 px-4 rounded-xl transition-all">Opción A</button>
+                    <button onclick="showExcuse(2)" class="bg-purple-100 hover:bg-purple-200 text-purple-800 text-xs sm:text-sm font-semibold py-2 px-4 rounded-xl transition-all">Opción B</button>
+                    <button onclick="showExcuse(3)" class="bg-pink-200 hover:bg-pink-300 text-pink-900 text-xs sm:text-sm font-semibold py-2 px-4 rounded-xl transition-all">La Verdad</button>
+                </div>
+                <div id="excuse-box" class="mt-4 p-3 bg-pink-50 rounded-xl text-xs sm:text-sm text-pink-900 font-medium hidden transition-all">
+                    <!-- Dynamic excuse text goes here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: The Heartfelt Message -->
+        <section class="bg-gradient-to-r from-pink-50 to-purple-50 p-6 rounded-2xl border border-pink-200 shadow-sm relative z-10 mb-6 text-center space-y-4">
+            <h2 class="text-xl font-bold text-purple-950">Ya hablando en serio...</h2>
+            <p class="text-gray-700 leading-relaxed text-sm sm:text-base">
+                Sé que a veces puedo ser un caso perdido, que la cago y que no siempre hago las cosas bien. Pero lo que sí tengo clarísimo es que <span class="font-bold text-pink-700">no quiero perderte</span>. 
+            </p>
+            <p class="text-gray-700 leading-relaxed text-sm sm:text-base">
+                Para mí, <span class="font-bold text-purple-800">tú eres todo</span>. Me importas muchísimo, valoro cada momento a tu lado y estoy dispuesto a poner todo de mi parte para mejorar, escucharte y hacer las cosas bien.
+            </p>
+        </section>
+
+        <!-- Section 4: Interactive Response Buttons -->
+        <section class="text-center relative z-10 space-y-3">
+            <p class="text-sm font-semibold text-gray-600">¿Me das una oportunidad de hablarlo o solucionarlo?</p>
+            <div class="flex justify-center gap-4">
+                <button onclick="handleResponse('yes')" class="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-bold py-3 px-6 rounded-2xl shadow-md transition-transform transform hover:scale-105">
+                    ¡Sí, hablemos! 🥺❤️
+                </button>
+                <button id="btn-no" onmouseover="moveButton()" onclick="handleResponse('no')" class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-3 px-6 rounded-2xl transition-all relative">
+                    No sé... 🙈
+                </button>
+            </div>
+            <div id="response-msg" class="text-sm font-bold mt-3 hidden"></div>
+        </section>
+
+        <!-- Footer note -->
+        <footer class="mt-8 text-center text-xs text-gray-400 relative z-10">
+            Hecho con algo de nervios y mucho cariño para Aylu.
+        </footer>
+    </main>
+
+    <script>
+        // Array of humorous excuses for why a website was built
+        function showExcuse(option) {
+            const box = document.getElementById('excuse-box');
+            box.classList.remove('hidden');
+            
+            if (option === 1) {
+                box.innerHTML = "💡 <b>Opción A:</b> Quería demostrarte que al menos aprendí algo útil en internet, aunque sea para pedir perdón.";
+            } else if (option === 2) {
+                box.innerHTML = "💡 <b>Opción B:</b> Si te mandaba un testamento por WhatsApp ibas a dejarme en visto, así que mejor te hice una interfaz gráfica profesional.";
+            } else if (option === 3) {
+                box.innerHTML = "💡 <b>La Verdad:</b> Tenía miedo de escribirte mal las palabras y preferí programarlo para que saliera exactamente lo que siento. Te quiero.";
+            }
+        }
+
+        // Playful function to make the 'No' button run away slightly if she tries to click it
+        function moveButton() {
+            const btn = document.getElementById('btn-no');
+            const randomX = (Math.random() - 0.5) * 80;
+            const randomY = (Math.random() - 0.5) * 40;
+            btn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+        }
+
+        // Response handler
+        function handleResponse(choice) {
+            const msgBox = document.getElementById('response-msg');
+            msgBox.classList.remove('hidden');
+            
+            if (choice === 'yes') {
+                msgBox.className = "text-sm font-bold mt-3 text-pink-600 animate-pulse";
+                msgBox.innerHTML = "¡Yay! Escríbeme cuando quieras, de verdad te lo agradeceré un montón. Te quiero ❤️";
+            } else {
+                msgBox.className = "text-sm font-bold mt-3 text-purple-700";
+                msgBox.innerHTML = "Entiendo, tómate tu tiempo. Aquí estaré esperando con paciencia. ✨";
+            }
+        }
+    </script>
+</body>
+</html>
